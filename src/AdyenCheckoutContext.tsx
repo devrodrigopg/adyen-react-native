@@ -160,7 +160,7 @@ const AdyenCheckout: React.FC<AdyenCheckoutProps> = ({
             response.paymentData,
             nativeComponent,
             response.extra,
-          ),
+          )
         )},
         eventEmitter.addListener(
           Event.onError,
