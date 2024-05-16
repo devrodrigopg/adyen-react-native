@@ -153,17 +153,23 @@ const AdyenCheckout: React.FC<AdyenCheckoutProps> = ({
     ) => {
       const eventEmitter = new NativeEventEmitter(nativeComponent);
       subscriptions.current = [
-        eventEmitter.addListener(Event.onSubmit, (response) =>
+        eventEmitter.addListener(Event.onSubmit, (response) =>{
+          nativeComponent.hide(false)
           submitPayment(
             configuration,
             response.paymentData,
             nativeComponent,
             response.extra,
           ),
-        ),
+        )},
         eventEmitter.addListener(
           Event.onError,
-          (error: AdyenError) => onError?.(error, nativeComponent),
+          (error: AdyenError) => {
+            if(error.errorCode === "canceledByShopper"){
+              nativeComponent.hide(false)
+            }
+            onError?.(error, nativeComponent)
+          },
         ),
       ];
 
